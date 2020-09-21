@@ -46,6 +46,17 @@ public class RegionController {
         Region region = new Region(rId, name);
         return regionDao.updateRegion(region)? "Sukses":"Gagal";
     }
+    public List<Region> findRegion(String name){
+        return regionDao.searchRegion(name);
+    }
     
+    public Region getDataRegion(String id){
+        int rId = Integer.parseInt(id);
+        return regionDao.getRegion(rId);
+    }
     
+    public String removeRegion(String id){
+        int rId = Integer.parseInt(id);
+        return regionDao.deleteRegion(rId)? "Sukses":"Gagal";
+    }
 }
