@@ -37,5 +37,7 @@ public class ManualTest {
         }
 //        System.out.println(data.getId()+" "+data.getTitle()+" "+data.getMin_salary()+" "+data.getMax_salary());
 //        System.out.println(new JobController().removeJob("IT_Java"));
+
+
     }
 }
