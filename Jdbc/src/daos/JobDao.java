@@ -16,17 +16,17 @@ import models.Region;
  *
  * @author User
  */
-public class RegionDao {
+public class JobDao {
     private Connection connection;
 
-    public RegionDao() {
+    public JobDao() {
     }
-    
-    public RegionDao(Connection connection) {
+
+    public JobDao(Connection connection) {
         this.connection = connection;
     }
     
-    public List<Region> getRegions(){
+    public List<Region> getJobs(){
         List<Region> regions = new ArrayList<>();
         String query = "SELECT * FROM regions";
         try {

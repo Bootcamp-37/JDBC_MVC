@@ -47,8 +47,5 @@ public class RegionController {
         return regionDao.updateRegion(region)? "Sukses":"Gagal";
     }
     
-    public List<Region> findRegion(String id){
-        int rId = Integer.parseInt(id);
-        return regionDao.searchRegion(rId);
-    }
+    
 }
