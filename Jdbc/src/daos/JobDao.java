@@ -10,7 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import models.Region;
+import models.Job;
 
 /**
  *
@@ -26,32 +26,35 @@ public class JobDao {
         this.connection = connection;
     }
     
-    public List<Region> getJobs(){
-        List<Region> regions = new ArrayList<>();
-        String query = "SELECT * FROM regions";
+    public List<Job> getJobs(){
+        List<Job> jobs = new ArrayList<>();
+        String query = "SELECT * FROM jobs";
         try {
             PreparedStatement ps = this.connection.prepareStatement(query);
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {                
-                Region r = new Region();
-                r.setId(resultSet.getInt("region_id"));
-                r.setName(resultSet.getString(2));
-                regions.add(r);
+                Job j = new Job();
+                j.setId(resultSet.getString(1));
+                j.setTitle(resultSet.getString(2));
+                j.setMin_salary(resultSet.getInt(3));
+                j.setMax_salary(resultSet.getInt(4));
+                jobs.add(j);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return regions;
+        return jobs;
     }
     
-    public boolean insertRegion(Region region){
+    public boolean insertJob(Job job){
         boolean result = false;
-//        String query = "INSERT INTO regions (region_id,region_name) VALUES ("+region.getId()+",'"+region.getName()+"')";
-        String query = "INSERT INTO regions (region_id,region_name) VALUES (?,?)";
+        String query = "INSERT INTO jobs (job_id,job_title,min_salary,max_salary) VALUES (?,?,?,?)";
         try {
             PreparedStatement ps = this.connection.prepareStatement(query);
-            ps.setInt(1, region.getId());
-            ps.setString(2, region.getName());
+            ps.setString(1, job.getId());
+            ps.setString(2, job.getTitle());
+            ps.setInt(3, job.getMin_salary());
+            ps.setInt(4, job.getMax_salary());
             ps.executeUpdate();
             result = true;
         } catch (Exception e) {
@@ -60,13 +63,15 @@ public class JobDao {
         return result;
     }
     
-    public boolean updateRegion(Region region){
+    public boolean updateJob(Job job){
         boolean result = false;
-        String query = "UPDATE regions SET region_name = ? WHERE region_id = ?";
+        String query = "UPDATE jobs SET job_title = ? , min_salary = ? , max_salary = ? WHERE job_id = ?";
         try {
             PreparedStatement ps = this.connection.prepareStatement(query);
-            ps.setInt(2, region.getId());
-            ps.setString(1, region.getName());
+            ps.setString(4, job.getId());
+            ps.setString(1, job.getTitle());
+            ps.setInt(2, job.getMin_salary());
+            ps.setInt(3, job.getMax_salary());
             ps.executeUpdate();
             result = true;
         } catch (Exception e) {
@@ -75,48 +80,52 @@ public class JobDao {
         return result;
     }
     
-    public List<Region> searchRegion(String name){
-        List<Region> regions = new ArrayList<>();
-        String query = "SELECT * FROM regions WHERE region_name LIKE ?";
+    public List<Job> searchJob(String title){
+        List<Job> jobs = new ArrayList<>();
+        String query = "SELECT * FROM jobs WHERE job_title LIKE ?";
         try {
             PreparedStatement ps = this.connection.prepareStatement(query);
-            ps.setString(1, "%"+name+"%");
+            ps.setString(1, "%"+title+"%");
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {                
-                Region r = new Region();
-                r.setId(resultSet.getInt(1));
-                r.setName(resultSet.getString(2));
-                regions.add(r);
+                Job j = new Job();
+                j.setId(resultSet.getString(1));
+                j.setTitle(resultSet.getString(2));
+                j.setMin_salary(resultSet.getInt(3));
+                j.setMax_salary(resultSet.getInt(4));
+                jobs.add(j);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return regions;
+        return jobs;
     }
     
-    public Region getRegion(int id){
-        Region region = new Region();
-        String query = "SELECT * FROM regions WHERE region_id = ?";
+    public Job getJob(String id){
+        Job job = new Job();
+        String query = "SELECT * FROM jobs WHERE job_id = ?";
         try {
             PreparedStatement ps = this.connection.prepareStatement(query);
-            ps.setInt(1,id);
+            ps.setString(1,id);
             ResultSet resultSet = ps.executeQuery();
             while (resultSet.next()) {                
-                region.setId(resultSet.getInt(1));
-                region.setName(resultSet.getString(2));
+                job.setId(resultSet.getString(1));
+                job.setTitle(resultSet.getString(2));
+                job.setMin_salary(resultSet.getInt(3));
+                job.setMax_salary(resultSet.getInt(4));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return region;
+        return job;
     }
     
-    public boolean deleteRegion(int id){
+    public boolean deleteJob(String id){
         boolean result = false;
-        String query = "DELETE FROM regions WHERE region_id = ?";
+        String query = "DELETE FROM jobs WHERE job_id = ?";
         try {
             PreparedStatement ps = this.connection.prepareStatement(query);
-            ps.setInt(1, id);
+            ps.setString(1, id);
             ps.executeUpdate();
             result = true;
         } catch (Exception e) {

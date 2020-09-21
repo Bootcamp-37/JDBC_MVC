@@ -22,7 +22,7 @@ public class RegionController {
         this.regionDao = new RegionDao(new Koneksi().getConnection());
     }
     
-    public List<Region> getDataRegion(){
+    public List<Region> getDataRegions(){
         return regionDao.getRegions();
     }
     
