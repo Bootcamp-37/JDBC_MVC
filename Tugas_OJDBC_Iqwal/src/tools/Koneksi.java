@@ -24,7 +24,7 @@ public class Koneksi {
             dataSource.setPortNumber(1521);
             dataSource.setServiceName("XE");
             dataSource.setUser("system");
-            dataSource.setPassword("b0o7c@mp");
+            dataSource.setPassword("b0O7c@mp");
             connection = dataSource.getConnection();
             connection.createStatement().execute("alter session SET current_schema = HR");
         }catch(Exception e){
