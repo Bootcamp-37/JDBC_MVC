@@ -17,7 +17,14 @@ public class Job {
 
     public Job() {
     }
-
+    
+    /**
+     * Merupakan konstruktor untuk membuat object job
+     * @param id = berisi data id
+     * @param title = berisi title job
+     * @param min_salary = beriisi minimal salary
+     * @param max_salary  = berisi maksimal salary
+     */
     public Job(String id, String title, int min_salary, int max_salary) {
         this.id = id;
         this.title = title;

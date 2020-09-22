@@ -15,7 +15,10 @@ import oracle.jdbc.pool.OracleDataSource;
 public class Koneksi {
 
     private Connection connection = null;
-
+    /**
+     * Method ini digunakan untuk membuat koneksi kedalam database
+     * @return method ini mengembalikan object connection
+     */
     public Connection getConnection() {
         try{
             OracleDataSource dataSource = new OracleDataSource();

@@ -17,61 +17,38 @@ import models.Job;
  * @author User
  */
 public class JobDao {
+
     private Connection connection;
 
     public JobDao() {
     }
 
+    /**
+     * Konstruktor ini digunakan jika ingin membuat object dengan parameter connection
+     * @param connection = berisi connection berasal dari koneksi
+     */
     public JobDao(Connection connection) {
         this.connection = connection;
     }
     
-    public List<Job> getJobs(){
-        List<Job> jobs = new ArrayList<>();
-        String query = "SELECT * FROM jobs";
-        try {
-            PreparedStatement ps = this.connection.prepareStatement(query);
-            ResultSet resultSet = ps.executeQuery();
-            while (resultSet.next()) {                
-                Job j = new Job();
-                j.setId(resultSet.getString(1));
-                j.setTitle(resultSet.getString(2));
-                j.setMin_salary(resultSet.getInt(3));
-                j.setMax_salary(resultSet.getInt(4));
-                jobs.add(j);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return jobs;
-    }
-    
-    public boolean insertJob(Job job){
-        boolean result = false;
-        String query = "INSERT INTO jobs (job_id,job_title,min_salary,max_salary) VALUES (?,?,?,?)";
-        try {
-            PreparedStatement ps = this.connection.prepareStatement(query);
-            ps.setString(1, job.getId());
-            ps.setString(2, job.getTitle());
-            ps.setInt(3, job.getMin_salary());
-            ps.setInt(4, job.getMax_salary());
-            ps.executeUpdate();
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-    
-    public boolean updateJob(Job job){
+    /**
+     * Method ini digunakan untuk menambahkan dan merubah isi job
+     * @param job = berisi data job yang akan ditambahkan atau diubah
+     * @param isInsert = beriisi true jika perintah yg diinginkan yaitu menambahkan dan false jika perintahnya merubah
+     * @return  = Jika method ini berhasil dijalankan maka akan mengembalikan nilai true dan jika gagal mengembalikan nilai false
+     */
+    public boolean insertUpdateJob(Job job, boolean isInsert ) {
         boolean result = false;
         String query = "UPDATE jobs SET job_title = ? , min_salary = ? , max_salary = ? WHERE job_id = ?";
         try {
+            if (isInsert) {
+                query = "INSERT INTO jobs (job_title,min_salary,max_salary,job_id) VALUES (?,?,?,?)";
+            }
             PreparedStatement ps = this.connection.prepareStatement(query);
-            ps.setString(4, job.getId());
             ps.setString(1, job.getTitle());
             ps.setInt(2, job.getMin_salary());
             ps.setInt(3, job.getMax_salary());
+            ps.setString(4, job.getId());
             ps.executeUpdate();
             result = true;
         } catch (Exception e) {
@@ -79,15 +56,26 @@ public class JobDao {
         }
         return result;
     }
-    
-    public List<Job> searchJob(String title){
+
+    /**
+     * Method ini berfungsi untuk melakukan pencarian jobs baik dengan keyword atau tidak
+     * @param title = berisi keyword yang akan digunakan dalam pencarian
+     * @return = Method ini akan mengembalikan list yang berisi banyak job sesuai dengan isi dari parameter
+     */
+    public List<Job> getSearchJobs(String title) {
         List<Job> jobs = new ArrayList<>();
-        String query = "SELECT * FROM jobs WHERE job_title LIKE ?";
+        String query = "SELECT * FROM jobs";
+        PreparedStatement ps = null;
         try {
-            PreparedStatement ps = this.connection.prepareStatement(query);
-            ps.setString(1, "%"+title+"%");
+            if (!title.equals("")) {
+                query = "SELECT * FROM jobs WHERE job_title LIKE ?";
+                ps = this.connection.prepareStatement(query);
+                ps.setString(1, "%"+title+"%" );
+            }else{
+                ps = this.connection.prepareStatement(query);
+            }
             ResultSet resultSet = ps.executeQuery();
-            while (resultSet.next()) {                
+            while (resultSet.next()) {
                 Job j = new Job();
                 j.setId(resultSet.getString(1));
                 j.setTitle(resultSet.getString(2));
@@ -100,15 +88,20 @@ public class JobDao {
         }
         return jobs;
     }
-    
-    public Job getJob(String id){
+
+    /**
+     * Method getJob berfungsi untuk mendapatkan sebuah data yang berada pada tabel job
+     * @param id = merupakan id job yang akan didapatkan
+     * @return = Jika method ini berhasil maka akan mengembalikan object job
+     */
+    public Job getJob(String id) {
         Job job = new Job();
         String query = "SELECT * FROM jobs WHERE job_id = ?";
         try {
             PreparedStatement ps = this.connection.prepareStatement(query);
-            ps.setString(1,id);
+            ps.setString(1, id);
             ResultSet resultSet = ps.executeQuery();
-            while (resultSet.next()) {                
+            while (resultSet.next()) {
                 job.setId(resultSet.getString(1));
                 job.setTitle(resultSet.getString(2));
                 job.setMin_salary(resultSet.getInt(3));
@@ -119,8 +112,13 @@ public class JobDao {
         }
         return job;
     }
-    
-    public boolean deleteJob(String id){
+
+    /**
+     * Method deleteJob berfungsi untuk menghapus data yang berada pada tabel jobs
+     * @param id = merupakan id job yang akan dihapus
+     * @return =  Jika query berhasil dijalankan maka akan mengembalikan nilai true
+     */
+    public boolean deleteJob(String id) {
         boolean result = false;
         String query = "DELETE FROM jobs WHERE job_id = ?";
         try {

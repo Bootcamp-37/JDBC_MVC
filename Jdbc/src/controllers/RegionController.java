@@ -18,43 +18,69 @@ public class RegionController {
     
     private RegionDao regionDao;
     
+    /**
+     * Konstruktor untuk membuat object jobcontroller yang mengisi atribut jobdao dari koneksi
+     */
     public RegionController() {
         this.regionDao = new RegionDao(new Koneksi().getConnection());
     }
     
+    /**
+     * Method ini digunakan ketika ingin mencari seluruh data region
+     * @return  = method ini mengembalikan list berisi seluruh data region
+     */
     public List<Region> getDataRegions(){
-        return regionDao.getRegions();
+        return regionDao.getSearchRegion("");
     }
     
+    /**
+     * Method ini digunakan ketika ingin menambahkan region baru
+     * @param id = berisi id pada data yang ingin dimasukkan
+     * @param name = berisi nama region yang ingin dimasukkan
+     * @return = method ini akan mengembalikan nilai string berupa sukses jika berhasil dan gagal jika gagal menambahkan
+     */
     public String saveRegion(String id, String name){
         int rId = Integer.parseInt(id);
-//        Region region = new Region();
-//        region.setId(rId);
-//        region.setName(name);
         Region region = new Region(rId, name);
-//        boolean result = regionDao.insertRegion(region);
-//        if (result) {
-//            return "Berhasil";
-//        }
-//        return "Gagal";
-//        return result? "Sukses":"Gagal";
-        return regionDao.insertRegion(region)? "Sukses":"Gagal";
+        return regionDao.insertUpdateRegion(region,true)? "Sukses":"Gagal";
     }
     
+    /**
+     * Method ini digunakan ketika ingin merubah region baru
+     * @param id = berisi id pada data yang ingin diubah
+     * @param name = berisi nama region yang ingin diubah
+     * @return = method ini akan mengembalikan nilai string berupa sukses jika berhasil dan gagal jika gagal diubah
+     */
     public String editRegion(String id, String name){
         int rId = Integer.parseInt(id);
         Region region = new Region(rId, name);
-        return regionDao.updateRegion(region)? "Sukses":"Gagal";
-    }
-    public List<Region> findRegion(String name){
-        return regionDao.searchRegion(name);
+        return regionDao.insertUpdateRegion(region,false)? "Sukses":"Gagal";
     }
     
+    /**
+     * Method ini digunakan ketika ingin mencari data region dengan menggunakan keyword
+     * @param name = berisi keyword yang akan digunakan dalam pencarian
+     * @return = method ini mengembalikan list berisi seluruh data region sesuai dengan keyword
+     */
+    public List<Region> findRegion(String name){
+        return regionDao.getSearchRegion(name);
+    }
+    
+    /**
+     Method ini digunakan ketika ingin mencari sebuah data region berdasarkan id
+     * @param id = berisi id data yang akan dicari
+     * @return  = method ini mengembalikan object region yang sudah dicari
+     */
     public Region getDataRegion(String id){
         int rId = Integer.parseInt(id);
         return regionDao.getRegion(rId);
     }
     
+    /**
+     * Method ini digunakan ketika ingin menghapus data region berdasarkan id
+     * @param id = berisi id data yang akan dihapus
+     * @return = method ini mengambilkan string yang berisi jika berhasil maka sukses dan jika tidak berhasil maka gagal 
+     */
     public String removeRegion(String id){
         int rId = Integer.parseInt(id);
         return regionDao.deleteRegion(rId)? "Sukses":"Gagal";
