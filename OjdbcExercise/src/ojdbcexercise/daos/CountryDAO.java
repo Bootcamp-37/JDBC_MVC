@@ -26,7 +26,12 @@ public class CountryDAO {
     public CountryDAO() {
     }
     
-    
+/**
+ * This method is called to show all the data in table countries,
+ * Your data will be showed in console,
+ * @return countries, which is datas in countries 
+ * this data is form of list type
+ */
     public List<Country>getCountries(){
         List<Country> countries= new ArrayList<>();
         String query="select * from COUNTRIES";
@@ -35,9 +40,9 @@ public class CountryDAO {
             ResultSet resultSet= preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Country country= new Country();
-                country.setId(resultSet.getString(1));//ambil dari nama kolom
-                country.setName(resultSet.getString(2));//ambil dari nomor kolom
-                country.setRegion(resultSet.getInt(3));//ambil dari nomor kolom
+                country.setId(resultSet.getString(1));
+                country.setName(resultSet.getString(2));
+                country.setRegion(resultSet.getInt(3));
                 countries.add(country);
                 
             }
@@ -46,11 +51,43 @@ public class CountryDAO {
         }
         return countries;
     }
-    
+/**
+ * This method is called to save or edit all data you insert in,
+ * Your saved or edited data will be showed in console,
+ * @return result, which is success or not the process of saving or editing the data
+ * @param country, is a whole package of country's object you insert in
+ */
+    public boolean insertUpdateCountry(Country country, boolean isInsert){
+         boolean result = false;
+          String query = "UPDATE Countries SET country_name=?, region_id=? WHERE (country_id = ?)";
+if(isInsert){
+        query = "INSERT INTO Countries ( country_name, region_id, country_id) VALUES (?,?,?)";
+}       
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(3, country.getId());
+            preparedStatement.setString(1, country.getName());
+            preparedStatement.setInt(2, country.getRegion());
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return result;
+        
+    }
+   /**
+ * This method is called to save all data you insert in,
+ * Your saved data will be showed in console,
+ * @return result, which is success or not the process of saving the data
+ * @param country, is a whole package of country's object you insert in
+ */
     public boolean insertCountry(Country country){
          boolean result = false;
 
         String query = "INSERT INTO Countries (country_id, country_name, region_id) VALUES (?,?,?)";
+        
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, country.getId());
@@ -65,7 +102,12 @@ public class CountryDAO {
         return result;
         
     }
-    
+    /**
+ * This method is called to edit all data you insert in,
+ * Your edited data will be showed in console,
+ * @return result, which is success or not the process of editing the data
+ * @param country, is a whole package of country's object you insert in
+ */
      public boolean updateCountry(Country country){
          boolean result = false;
          
@@ -85,9 +127,16 @@ public class CountryDAO {
         return result;
         
     }
-     public List<Country> searchCountry(String key){
+    /**
+ * This method is called to show all data that matches your search's clue is
+ * Process all the input you want to search, you can enter either id's data, name's data, or region's data
+ * @return countries, which is datas in countries that matches your clue
+ * this data is form of list type
+ * @param key, is the keyword that you want to search
+ */
+      public List<Country> searchCountry(String key){
          List<Country> countries= new ArrayList<>();
-         String query="select * from COUNTRIES where lower(country_id) LIKE ? OR lower(country_name) LIKE ? OR region_id LIKE ?";
+         String query="select * from COUNTRIES where lower(country_id) LIKE ? OR lower(country_name) LIKE ? OR lower(region_id) LIKE ?";
         try {
             PreparedStatement preparedStatement=connection.prepareStatement(query);
            preparedStatement.setString(1, "%"+key.toLowerCase()+"%");
@@ -107,7 +156,12 @@ public class CountryDAO {
         }
         return countries;
      }
-     
+/**
+ * This method is called to delete the data you insert in,
+ * Your deleted data will be showed in console, that your data is deleted,
+ * @return result, which is success or not the process of deleting the data
+ * @param country, is a whole package of country's object you insert in
+ */
      public boolean deleteCountry(Country country){
          boolean result = false;
          
@@ -125,6 +179,13 @@ public class CountryDAO {
         return result;
         
     }
+/**
+ * This method is called to show the data that matches the id you inserted in,
+ * Process the id that you inputed,
+ * @return country, which is data in countries that matches your clue,
+ * this is a whole object of a Country.
+ * @param id, is the id of your data that you want to search.
+ */
        public Country findByIdCountry(String id){
          Country country= null;
          String query="select * from COUNTRIES where country_id = ?";

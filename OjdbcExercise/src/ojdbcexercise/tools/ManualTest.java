@@ -19,17 +19,17 @@ public class ManualTest {
 
         System.out.println(new Koneksi().getConnection());
 //        System.out.println(new CountryController().insertCountryController("ID","Antartika","1"));
-//        System.out.println(new CountryController().updateCountryController("ID", "INDONESIA","1"));
+//        System.out.println(new CountryController().updateCountryController("IL", "ISRAEL","1"));
 //        System.out.println(new CountryController().deleteCountryController("ID"));
 
 //Country country= new CountryController().getByIdCountryController("IL");
 //        System.out.println(country.getId()+" "+country.getName());
         
-//List<Country> countries = new CountryController().getDataCountry();
+List<Country> countries = new CountryController().getDataCountry();
 
-List<Country> countries = new CountryController().findCountry("y");
+//List<Country> countries = new CountryController().findCountry("Y");
         for (Country country : countries) {
-            System.out.println(country.getId() + " " + country.getName());
+            System.out.println(country.getId() + " " + country.getName()+" "+country.getRegion());
         }
     }
 }
