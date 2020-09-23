@@ -16,6 +16,11 @@ public class Region {
     public Region() {
     }
 
+    /**
+     * Merupakan konstruktor untuk membuat object Region
+     * @param id = berisi data id region
+     * @param name  = berisi data name region
+     */
     public Region(int id, String name) {
         this.id = id;
         this.name = name;
