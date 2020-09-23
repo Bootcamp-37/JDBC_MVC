@@ -37,6 +37,7 @@ public class JobController {
         int jMin = Integer.parseInt(min);
         int jMax = Integer.parseInt(max);
         Job job = new Job(id, title, jMin, jMax);
+        System.out.println("test");
         return jobDao.insertUpdateJob(job,true) ? "Sukses menambahkan" : "Gagal menambahkan";
     }
 
