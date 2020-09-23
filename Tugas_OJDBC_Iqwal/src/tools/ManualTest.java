@@ -15,12 +15,21 @@ import models.Department;
  */
 public class ManualTest {
     public static void main(String[] args) {
-        System.out.println(new Koneksi().getConnection());
-//        System.out.println(new DepartmentController().editDepartment("10", "Administrasi", "200", "1700"));
-        List<Department> data = new DepartmentController().findDpartment("20");
+        
+        //Department Insert Update Delete
+//        System.out.println(new DepartmentController().addDepartment("301", "Support Admin", "200", "1700")); //INSERT BISA
+//        System.out.println(new DepartmentController().editDepartment("301", "Support Administrasi", "201", "1700")); //EDIT BISA
+//        System.out.println(new DepartmentController().deleteDepartment("300"));//Delete Bisa
+        //Show Data
+        List<Department> data = new DepartmentController().findDepartment("mi");
+        //Department data = new DepartmentController().getDataDepartment("10");
         for (Department department : data) {
             System.out.println(department.getDept_id()+" "+department.getDept_name());
-    }
+        }
+                      
+  }
 }
+
+
 
 
