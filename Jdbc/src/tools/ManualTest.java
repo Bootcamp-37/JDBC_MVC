@@ -31,8 +31,8 @@ public class ManualTest {
 //        System.out.println(data.getId()+" "+ data.getName());
 
 
-//        System.out.println(new JobController().addJob("IT_Java", "Java Programmer", "5000", "7500"));
-//        System.out.println(new JobController().addEditJob("IT_Net", ".Net Programmer", "6500", "8500",false));
+//        System.out.println(new JobController().addJobSP("IT_C#", "Java Programmer", "5000", "7500"));
+        System.out.println(new JobController().saveJobSP("IT_Net", ".N Programmer", "6500", "8500"));
 //        System.out.println(new JobController().editJob("IT_Java", "Senior Java Programmer", "6000", "9500"));
 //        List<Job> data = new JobController().getDataJobs();
 //        List<Job> data = new JobController().findJob("Programmer");

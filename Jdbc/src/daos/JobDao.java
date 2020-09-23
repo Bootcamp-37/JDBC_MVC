@@ -5,11 +5,15 @@
  */
 package daos;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import models.Job;
 
 /**
@@ -55,6 +59,26 @@ public class JobDao {
             e.printStackTrace();
         }
         return result;
+    }
+    
+    public boolean insertUpdateJobSP(Job job, boolean isInsert){
+        String query = "{call SP_UpdateJob(?,?,?,?,?)}";
+        try {
+            if (isInsert) {
+                query = "{call SP_InsertJobs(?,?,?,?,?)}";
+            }
+            CallableStatement cs = this.connection.prepareCall(query);
+            cs.setString(1, job.getId());
+            cs.setString(2, job.getTitle());
+            cs.setInt(3, job.getMin_salary());
+            cs.setInt(4, job.getMax_salary());
+            cs.registerOutParameter(5, java.sql.Types.INTEGER);
+            cs.executeUpdate();
+            return (cs.getInt(5)==0)? false:true;
+        } catch (SQLException ex) {
+            Logger.getLogger(JobDao.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false; 
     }
 
     /**

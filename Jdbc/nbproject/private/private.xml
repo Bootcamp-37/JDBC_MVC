@@ -5,7 +5,9 @@
         <group>
             <file>file:/D:/Git/JDBC_MVC/Jdbc/src/tools/ManualTest.java</file>
             <file>file:/D:/Git/JDBC_MVC/Jdbc/src/views/JobView.java</file>
+            <file>file:/D:/Git/JDBC_MVC/Jdbc/src/controllers/JobController.java</file>
             <file>file:/D:/Git/JDBC_MVC/Jdbc/src/views/RegionView.java</file>
+            <file>file:/D:/Git/JDBC_MVC/Jdbc/src/daos/JobDao.java</file>
             <file>file:/D:/Git/JDBC_MVC/Jdbc/src/views/MainView.java</file>
         </group>
     </open-files>

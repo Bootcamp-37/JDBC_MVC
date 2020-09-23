@@ -5,6 +5,7 @@
  */
 package views;
 
+import com.sun.glass.events.KeyEvent;
 import controllers.RegionController;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -51,6 +52,12 @@ public class RegionView extends javax.swing.JInternalFrame {
 
         setTitle("Region Form");
 
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSearchKeyPressed(evt);
+            }
+        });
+
         btnSearch.setText("Search");
         btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -66,6 +73,11 @@ public class RegionView extends javax.swing.JInternalFrame {
 
             }
         ));
+        tblRegion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblRegionMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblRegion);
 
         jLabel1.setText("Details Region");
@@ -105,7 +117,7 @@ public class RegionView extends javax.swing.JInternalFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -117,15 +129,11 @@ public class RegionView extends javax.swing.JInternalFrame {
                             .addComponent(jLabel3))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtName)
-                                .addGap(239, 239, 239))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnDelete)
+                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtName)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 186, Short.MAX_VALUE)
+                        .addComponent(btnDelete)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnEdit)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -227,6 +235,23 @@ public class RegionView extends javax.swing.JInternalFrame {
         loadData(regionController.findRegion(data));
         txtSearch.setText("");
     }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String data = txtSearch.getText();
+            loadData(regionController.findRegion(data));
+            txtSearch.setText("");
+        }
+    }//GEN-LAST:event_txtSearchKeyPressed
+
+    private void tblRegionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblRegionMouseClicked
+        int row = tblRegion.getSelectedRow();
+        String id = tblRegion.getValueAt(row, 0).toString();
+        String name = tblRegion.getValueAt(row, 1).toString();
+        
+        txtId.setText(id);
+        txtName.setText(name);
+    }//GEN-LAST:event_tblRegionMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

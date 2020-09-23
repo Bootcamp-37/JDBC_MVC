@@ -37,8 +37,21 @@ public class JobController {
         int jMin = Integer.parseInt(min);
         int jMax = Integer.parseInt(max);
         Job job = new Job(id, title, jMin, jMax);
-        System.out.println("test");
         return jobDao.insertUpdateJob(job,true) ? "Sukses menambahkan" : "Gagal menambahkan";
+    }
+    
+    public String addJobSP(String id, String title, String min, String max) {
+        int jMin = Integer.parseInt(min);
+        int jMax = Integer.parseInt(max);
+        Job job = new Job(id, title, jMin, jMax);
+        return jobDao.insertUpdateJobSP(job,true) ? "Sukses menambahkan" : "Gagal menambahkan";
+    }
+    
+    public String saveJobSP(String id, String title, String min, String max) {
+        int jMin = Integer.parseInt(min);
+        int jMax = Integer.parseInt(max);
+        Job job = new Job(id, title, jMin, jMax);
+        return jobDao.insertUpdateJobSP(job,false) ? "Sukses mengedit" : "Gagal mengedit";
     }
 
     /**
