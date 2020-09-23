@@ -41,9 +41,10 @@ public class RegionDao {
         PreparedStatement ps = null;
         try {
             if (!name.equals("")) {
-                query = "SELECT * FROM regions WHERE region_name LIKE ?";
+                query = "SELECT * FROM regions WHERE lower(region_name) LIKE ? OR lower(region_id) LIKE ?";
                 ps = this.connection.prepareStatement(query);
                 ps.setString(1, "%"+name+"%" );
+                ps.setString(2, "%"+name+"%" );
             }else{
                 ps = this.connection.prepareStatement(query);
             }

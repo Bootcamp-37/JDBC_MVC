@@ -62,15 +62,18 @@ public class JobDao {
      * @param title = berisi keyword yang akan digunakan dalam pencarian
      * @return = Method ini akan mengembalikan list yang berisi banyak job sesuai dengan isi dari parameter
      */
-    public List<Job> getSearchJobs(String title) {
+    public List<Job> getSearchJobs(String keyword) {
         List<Job> jobs = new ArrayList<>();
         String query = "SELECT * FROM jobs";
         PreparedStatement ps = null;
         try {
-            if (!title.equals("")) {
-                query = "SELECT * FROM jobs WHERE job_title LIKE ?";
+            if (!keyword.equals("")) {
+                query = "SELECT * FROM jobs WHERE lower(job_title) LIKE ? OR min_salary LIKE ? OR max_salary LIKE ? OR lower(job_id) LIKE ? ";
                 ps = this.connection.prepareStatement(query);
-                ps.setString(1, "%"+title+"%" );
+                ps.setString(1, "%"+keyword+"%" );
+                ps.setString(2, "%"+keyword+"%" );
+                ps.setString(3, "%"+keyword+"%" );
+                ps.setString(4, "%"+keyword+"%"  );
             }else{
                 ps = this.connection.prepareStatement(query);
             }
